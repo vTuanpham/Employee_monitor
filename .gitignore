@@ -1,3 +1,8 @@
+/face_verification/faces/*.jpg
+/face_verification/faces/*.png
+/human_detection/videos/*.mp4
+/monitor_pipe/videos/*.mp4
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
