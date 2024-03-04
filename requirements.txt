@@ -2,4 +2,4 @@ facenet-pytorch
 pillow
 ultralytics
 moviepy
-keyboard
+numpy

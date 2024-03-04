@@ -11,7 +11,7 @@ from face_verification import run_face_verification, create_embedding
 from human_detection import process_video, process_yolo_boxes, initialize_model, initialize_video_capture, release_video
 
 # Configuration Constants
-VIDEO_FILE_1 = "Monitor_pipe/videos/Chủ tịch Phạm Nhật Vượng phát biểu ,  không ai có thể phản biện được!.mp4"
+VIDEO_FILE_1 = "http://172.30.240.1:56000/mjpeg"
 MODEL_FILE = 'yolov8n.pt'
 DEVICE_ID = "0"
 
@@ -93,7 +93,7 @@ def plot_results(results, frame, track_ids, track_id_name_map=None, colors=(0, 0
 import datetime
 import logging
 
-def face_verification_thread(embed_index, images_path, results_queue, identify_queue, confidence_threshold=0.6, max_age_seconds=20):
+def face_verification_thread(embed_index, images_path, results_queue, identify_queue, confidence_threshold=0.5, max_age_seconds=20):
     """
     Thread function for face verification.
 
@@ -114,9 +114,9 @@ def face_verification_thread(embed_index, images_path, results_queue, identify_q
         if item is None:
             break
         frame, results, track_ids = item
-        for result, track_id in zip(results, track_ids):
+        for result in results:
             pil_images = process_yolo_boxes(result, frame)
-            for pil_image in pil_images:
+            for pil_image, track_id in zip(pil_images, track_ids):
                 closest_index, score = run_face_verification(pil_image, embed_index)
                 if closest_index is not None and score > confidence_threshold:
                     identified_name_path = images_path[closest_index]
