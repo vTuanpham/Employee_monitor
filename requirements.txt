@@ -3,3 +3,4 @@ pillow
 ultralytics
 moviepy
 numpy
+tqdm

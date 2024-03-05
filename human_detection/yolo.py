@@ -43,7 +43,7 @@ def initialize_video_capture(filename, width=None, height=None):
     return video, width, height
 
 
-def process_video(video, model, file_index, visualize: bool=False):
+def process_video(video, model, file_index, visualize: bool=False, verbose: bool=True, confidence: float=0.5):
     """Process individual video frame."""
     ret, frame = video.read()
     full_results = []
@@ -53,11 +53,12 @@ def process_video(video, model, file_index, visualize: bool=False):
                               classes=CLASSES_IDX, 
                               device=DEVICE_ID,
                               stream=True,
-                              conf=0.5,
+                              conf=confidence,
                               half=True,
                               max_det=10,
-                              vid_stride=2,
-                              tracker="bytetrack.yaml")
+                              vid_stride=1,
+                              tracker="bytetrack.yaml",
+                              verbose=verbose)
         for idx, result in enumerate(results):
             full_results.append(result) # Convert from generator to list for easier access
             if visualize:

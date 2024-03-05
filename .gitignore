@@ -2,6 +2,10 @@
 /face_verification/faces/*.png
 /human_detection/videos/*.mp4
 /monitor_pipe/videos/*.mp4
+/greet_detection/videos/*.mp4
+/greet_detection/data/greets/*.png
+/greet_detection/data/not_greets/*.png
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
