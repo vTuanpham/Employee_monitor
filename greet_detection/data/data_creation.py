@@ -5,11 +5,12 @@ import cv2
 from tqdm import tqdm
 import numpy as np
 sys.path.append('./')
+from icrawler.builtin import GoogleImageCrawler
 from human_detection import initialize_model, process_video, process_yolo_boxes, initialize_video_capture, release_video
 
 
 # Configuration Constants
-VIDEO_FILE_1 = "greet_detection/videos/How to Bow in Japan_ Japanese Bowing Basics - LIVE JAPAN.mp4"
+VIDEO_FILE_1 = "greet_detection/videos/The Rock slaps Cody Rhodes_ WrestleMania XL Kickoff.mp4"
 MODEL_FILE = 'yolov8n.pt'
 DEVICE_ID = "0"
 WINDOW_NAME = 'Greeting dataset creation' 
@@ -26,7 +27,7 @@ def create_greet_dataset(video_path, save_interval=1000, max_frames=10000):
     Returns:
         dict: A dictionary containing the number of greets, number of not greets, and total frames processed.
     """
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_AUTOSIZE)
     model = initialize_model(MODEL_FILE)
     video, _, _ = initialize_video_capture(video_path)
     # Get length of video
@@ -88,8 +89,25 @@ def create_greet_dataset(video_path, save_interval=1000, max_frames=10000):
     full_results['not_greets_num'] = not_greets_num
     full_results['total_frames'] = total_frames
     release_video(video)
+    save_images(greets_list, not_greets_list)
 
     return full_results
+
+def crawl_from_google(query, max_num=1000, store_dir='greet_detection/data/greets'):
+    """
+    Crawl images from Google using the icrawler library.
+
+    Args:
+        query (str): The search query.
+        max_num (int, optional): The maximum number of images to download. Defaults to 100.
+        store_dir (str, optional): The directory to store the images. Defaults to 'greet_detection/data/greets'.
+    """
+    google_crawler = GoogleImageCrawler(
+        feeder_threads=1,
+        parser_threads=2,
+        downloader_threads=4,
+        storage={'root_dir': store_dir})
+    google_crawler.crawl(keyword=query, max_num=max_num)
 
 def clean_up():
     # Clean up all data
@@ -98,8 +116,9 @@ def clean_up():
     print("Clean up complete.")
 
 def main():
-    full_results = create_greet_dataset(VIDEO_FILE_1)
-    print(full_results)
+    crawl_from_google("people stock photos", max_num=2000, store_dir='greet_detection/data/google_crawl/not_greets')
+    # full_results = create_greet_dataset(VIDEO_FILE_1)
+    # print(full_results)
     # clean_up()
 
 if __name__ == "__main__":
