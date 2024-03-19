@@ -4,3 +4,7 @@ ultralytics
 moviepy
 numpy
 tqdm
+torchvision
+icrawler
+bs4
+lxml

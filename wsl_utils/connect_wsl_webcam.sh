@@ -76,6 +76,7 @@ run_win_exe() {
     trap cleanup SIGINT
 
     local WINDOWS_FORMAT_TEMP_DIR=$(echo "$WINDOWS_TEMP_DIR" | sed -e 's/^\/mnt\/\([a-z]\)\//\1:\\/' -e 's/\//\\/g')
+    echo Windows format temp dir: $WINDOWS_FORMAT_TEMP_DIR
     /mnt/c/Windows/System32/cmd.exe /c "$WINDOWS_FORMAT_TEMP_DIR\\$EXECUTABLE_FILENAME" &
 
     wait $!
@@ -98,7 +99,7 @@ echo "This can be used directly with cv2 via cv2.VideoCapture('http://$nameserve
 
 # Example usage of running the executable
 # Uncomment the line below to run with an example executable path
-run_win_exe wsl_utils/cam2ip-1.6-64bit-cv/cam2ip.exe
+run_win_exe wsl_utils/cam2ip-1.6-64bit-cv/cam2ip.exe 
 
 
 # To run the script, type in the wsl terminal:

@@ -6,7 +6,7 @@ from PIL import Image
 from ultralytics import YOLO
 
 # Configuration Constants
-VIDEO_FILE_1 = "human_detection/videos/redditsave.com_which_are_better_drivers-k1yyrgpbvtp81.mp4"
+VIDEO_FILE_1 = "greet_detection/videos/istockphoto-1474996250-640_adpp_is.mp4"
 MODEL_FILE = 'yolov8n.pt'
 CLASSES_IDX = 0
 DEVICE_ID = "0"
@@ -56,7 +56,7 @@ def process_video(video, model, file_index, visualize: bool=False, verbose: bool
                               conf=confidence,
                               half=True,
                               max_det=10,
-                              vid_stride=1,
+                              vid_stride=2,
                               tracker="bytetrack.yaml",
                               verbose=verbose)
         for idx, result in enumerate(results):

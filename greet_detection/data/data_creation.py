@@ -6,11 +6,12 @@ from tqdm import tqdm
 import numpy as np
 sys.path.append('./')
 from icrawler.builtin import GoogleImageCrawler
+
 from human_detection import initialize_model, process_video, process_yolo_boxes, initialize_video_capture, release_video
 
 
 # Configuration Constants
-VIDEO_FILE_1 = "greet_detection/videos/The Rock slaps Cody Rhodes_ WrestleMania XL Kickoff.mp4"
+VIDEO_FILE_1 = "greet_detection/videos/3 types Japanese bows.mp4"
 MODEL_FILE = 'yolov8n.pt'
 DEVICE_ID = "0"
 WINDOW_NAME = 'Greeting dataset creation' 
@@ -93,6 +94,15 @@ def create_greet_dataset(video_path, save_interval=1000, max_frames=10000):
 
     return full_results
 
+def extract_person_from_google_images():
+    """
+    Extract the person from the images downloaded from Google.
+    """
+    pass
+
+
+    
+
 def crawl_from_google(query, max_num=1000, store_dir='greet_detection/data/greets'):
     """
     Crawl images from Google using the icrawler library.
@@ -116,7 +126,7 @@ def clean_up():
     print("Clean up complete.")
 
 def main():
-    crawl_from_google("people stock photos", max_num=2000, store_dir='greet_detection/data/google_crawl/not_greets')
+    crawl_from_google("Japanese people greet bowing stock photos", max_num=2000, store_dir='greet_detection/data/greets')
     # full_results = create_greet_dataset(VIDEO_FILE_1)
     # print(full_results)
     # clean_up()

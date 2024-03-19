@@ -9,14 +9,11 @@ from .utils import pad_largest_images, find_closest_embedding
 FACE_VERIFICATION_PATH = 'face_verification'
 FACES_PATH = 'faces'
 EXAMPLE_IMAGE_PATHS = [
-    "luffy_.jpg",
-    "Ny.jpg",
-    "The_Rock.jpg",
-    "Pham_nhat_vuong.jpg",
-    "Tuan.jpg",
-    "Thu.jpg"
+    ".jpg",
 ]
 INPUT_IMAGE_PATH = "pham-nhat-vuong.jpg"
+
+USE_CUDA = False
 
 
 def load_image_paths(base_path, image_names):
@@ -46,9 +43,9 @@ def create_embedding(image_paths, face_detection=None, embedding=None):
         return None, None
 
     if isinstance(image_paths, list):
-        stacked_tensor = torch.stack(imgs_cropped)
+        stacked_tensor = torch.stack(imgs_cropped).to('cuda' if torch.cuda.is_available() and USE_CUDA else 'cpu')
     else:
-        stacked_tensor = imgs_cropped.unsqueeze(0)
+        stacked_tensor = imgs_cropped.unsqueeze(0).to('cuda' if torch.cuda.is_available() and USE_CUDA else 'cpu')
 
     img_embedding = embedding(stacked_tensor).detach()
     return img_embedding, image_paths
@@ -56,8 +53,8 @@ def create_embedding(image_paths, face_detection=None, embedding=None):
 
 def create_model():
     """Create MTCNN and InceptionResnetV1 models."""
-    mtcnn = MTCNN(keep_all=False, image_size=160, device='cuda' if torch.cuda.is_available() else 'cpu')
-    resnet = InceptionResnetV1(pretrained='vggface2').eval()
+    mtcnn = MTCNN(keep_all=False, image_size=160, device='cuda' if torch.cuda.is_available() and USE_CUDA else 'cpu')
+    resnet = InceptionResnetV1(pretrained='vggface2').eval().to('cuda' if torch.cuda.is_available() and USE_CUDA else 'cpu')
     return mtcnn, resnet
 
 def run_face_verification(input_image, embed_index):
