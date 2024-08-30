@@ -6,8 +6,7 @@ This Employee Monitoring System is a video processing application that performs 
 
 ## Demo
 
-![Demo Video](assets/Employee_monitor_demo.mp4)
-
+https://github.com/user-attachments/assets/745de785-7b66-46f3-b73e-8aec8c9e34e4
 
 ## System Architecture
 
