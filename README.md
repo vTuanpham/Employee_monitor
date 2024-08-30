@@ -4,6 +4,11 @@
 
 This Employee Monitoring System is a video processing application that performs real-time analysis of employee behavior in a workplace setting. It uses computer vision and machine learning techniques to identify employees, verify dress code compliance, and detect greeting behaviors.
 
+## Demo
+
+![Demo Video](assets/Employee_monitor_demo.mp4)
+
+
 ## System Architecture
 
 ```
